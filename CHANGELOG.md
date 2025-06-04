@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/negadras/tada/compare/v1.0.0...1.0.1) (2025-06-04)
+
+### 🐛 Bug Fixes
+
+* configure semantic-release to use non-prefixed tags ([#10](https://github.com/negadras/tada/issues/10)) ([2ec8462](https://github.com/negadras/tada/commit/2ec8462034f2d96d3fbd4996e72c112a03e67448))
+
 ## 1.0.0 (2025-06-04)
 
 ### ⚠ BREAKING CHANGES

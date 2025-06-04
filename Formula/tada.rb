@@ -1,11 +1,14 @@
-# Documentation: https://docs.brew.sh/Formula-Cookbook
-#                https://rubydoc.brew.sh/Formula
 class Tada < Formula
-  desc "A todo app to manage your todos from your terminal 😉"
+  desc "A tada cli app to manage your todos from your terminal 😉"
   homepage "https://github.com/negadras/tada"
   license "MIT"
-  url "ssh://git@github.com:negadras/tada.git", :using => :git, :tag => "0.0.1" # version marker, do not remove
-  head "https://github.com/negadras/tada.git"
+
+  # Use HTTPS and point at tag
+  url "https://github.com/negadras/tada.git",
+      using: :git,
+      tag:      "0.0.1"
+
+  head "https://github.com/negadras/tada.git", branch: "main"
 
   depends_on "go" => :build
 
@@ -15,6 +18,6 @@ class Tada < Formula
   end
 
   test do
-    system bin/"tada", "--version"
+    assert_match version.to_s, shell_output("#{bin}/tada --version")
   end
 end

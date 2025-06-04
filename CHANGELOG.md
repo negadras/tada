@@ -1,3 +1,9 @@
+## [1.0.3](https://github.com/negadras/tada/compare/1.0.2...1.0.3) (2025-06-04)
+
+### 🐛 Bug Fixes
+
+* update-files script was auto-release action content ([#12](https://github.com/negadras/tada/issues/12)) ([6b7a5f8](https://github.com/negadras/tada/commit/6b7a5f88fc634fde051194a3a0b99d1a7971c2a3))
+
 ## [1.0.2](https://github.com/negadras/tada/compare/1.0.1...1.0.2) (2025-06-04)
 
 ### 🐛 Bug Fixes

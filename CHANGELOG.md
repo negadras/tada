@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/negadras/tada/compare/1.0.1...1.0.2) (2025-06-04)
+
+### 🐛 Bug Fixes
+
+* update formula to 1.0.1 and ensure script is executable ([#11](https://github.com/negadras/tada/issues/11)) ([94618c5](https://github.com/negadras/tada/commit/94618c58a9a85c4b32a6f371d8800e07bbc8cdc4))
+
 ## [1.0.1](https://github.com/negadras/tada/compare/v1.0.0...1.0.1) (2025-06-04)
 
 ### 🐛 Bug Fixes

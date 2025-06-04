@@ -1,0 +1,31 @@
+name: Lint Commits
+
+on:
+  pull_request:
+
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: wagoid/commitlint-github-action@v5
+        with:
+          configFile: commitlint.config.js
+          helpURL: |
+            Please use conventional commit format:
+            
+            - feat: A new feature
+            - fix: A bug fix
+            - docs: Documentation only changes
+            - style: Changes that don't affect code meaning
+            - refactor: Code change that neither fixes a bug nor adds a feature
+            - perf: Performance improvement
+            - test: Adding missing tests
+            - chore: Changes to build process or auxiliary tools
+            
+            Example: "feat: add new todo list filter"
+            
+            For breaking changes, add ! after type or include "BREAKING CHANGE" in commit body.

@@ -24,6 +24,11 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Make scripts executable
+        run: |
+          chmod +x .github/scripts/update-files.sh
+          echo "✅ Made update-files.sh executable"
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -39,8 +44,20 @@ jobs:
             @semantic-release/exec \
             conventional-changelog-conventionalcommits
 
+      # .releaserc.json is now in the repository root
+
+      # Scripts are now in the repository
+
       - name: Run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npx semantic-release
+          # Debug: Show current state
+          echo "📋 Current formula version:"
+          grep "tag:" Formula/tada.rb || echo "No tag found"
+          
+          echo "📋 Current tags:"
+          git tag -l | tail -5
+          
+          # Run semantic-release with debug output
+          npx semantic-release --debug

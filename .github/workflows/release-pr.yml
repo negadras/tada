@@ -61,6 +61,7 @@ jobs:
             ---
             *This PR was automatically created by the release workflow.*
           branch: "bump-formula-${{ steps.version.outputs.VERSION }}"
+          base: main
           delete-branch: true
           labels: |
             formula

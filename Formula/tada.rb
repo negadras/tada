@@ -6,7 +6,7 @@ class Tada < Formula
   # Use HTTPS and point at tag
   url "https://github.com/negadras/tada.git",
       using: :git,
-      tag:      "0.0.1"
+      tag:      "0.0.2"
 
   head "https://github.com/negadras/tada.git", branch: "main"
 

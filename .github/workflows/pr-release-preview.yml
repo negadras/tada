@@ -1,0 +1,168 @@
+name: PR Release Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, edited]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  preview:
+    name: Preview Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Checkout main
+        run: |
+          git fetch origin main:main
+
+      - name: Analyze commits
+        id: analyze
+        run: |
+          # Get all commits in this PR
+          COMMITS=$(git log --format="%s" main..HEAD)
+          
+          # Analyze commit types
+          MAJOR=false
+          MINOR=false
+          PATCH=false
+          
+          while IFS= read -r commit; do
+            # Check for breaking change
+            if [[ "$commit" =~ BREAKING[[:space:]]CHANGE ]] || [[ "$commit" =~ ^[a-z]+(\(.+\))?!: ]]; then
+              MAJOR=true
+            # Check for feature
+            elif [[ "$commit" =~ ^feat(\(.+\))?: ]]; then
+              MINOR=true
+            # Check for fix or perf
+            elif [[ "$commit" =~ ^(fix|perf)(\(.+\))?: ]]; then
+              PATCH=true
+            fi
+          done <<< "$COMMITS"
+          
+          # Determine version bump
+          if [ "$MAJOR" = true ]; then
+            BUMP="major"
+            EMOJI="💥"
+            DESC="Breaking Change"
+          elif [ "$MINOR" = true ]; then
+            BUMP="minor"
+            EMOJI="✨"
+            DESC="New Feature"
+          elif [ "$PATCH" = true ]; then
+            BUMP="patch"
+            EMOJI="🐛"
+            DESC="Bug Fix/Performance"
+          else
+            BUMP="none"
+            EMOJI="📝"
+            DESC="No Release"
+          fi
+          
+          echo "BUMP=${BUMP}" >> $GITHUB_OUTPUT
+          echo "EMOJI=${EMOJI}" >> $GITHUB_OUTPUT
+          echo "DESC=${DESC}" >> $GITHUB_OUTPUT
+          
+          # Get current version
+          CURRENT_VERSION=$(git show main:VERSION 2>/dev/null || echo "0.0.0")
+          echo "CURRENT_VERSION=${CURRENT_VERSION}" >> $GITHUB_OUTPUT
+          
+          # Calculate next version
+          if [ "$BUMP" != "none" ]; then
+            IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
+          
+            case "$BUMP" in
+              major)
+                NEXT_VERSION="$((major + 1)).0.0"
+                ;;
+              minor)
+                NEXT_VERSION="${major}.$((minor + 1)).0"
+                ;;
+              patch)
+                NEXT_VERSION="${major}.${minor}.$((patch + 1))"
+                ;;
+            esac
+          else
+            NEXT_VERSION="No release"
+          fi
+          
+          echo "NEXT_VERSION=${NEXT_VERSION}" >> $GITHUB_OUTPUT
+          
+          # Generate changelog preview
+          echo "## Commits in this PR" > pr-changelog.md
+          echo "" >> pr-changelog.md
+          
+          while IFS= read -r commit; do
+            echo "- $commit" >> pr-changelog.md
+          done <<< "$COMMITS"
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const bump = '${{ steps.analyze.outputs.BUMP }}';
+            const emoji = '${{ steps.analyze.outputs.EMOJI }}';
+            const desc = '${{ steps.analyze.outputs.DESC }}';
+            const currentVersion = '${{ steps.analyze.outputs.CURRENT_VERSION }}';
+            const nextVersion = '${{ steps.analyze.outputs.NEXT_VERSION }}';
+            
+            const body = `## ${emoji} Release Preview
+            
+            **Version Bump**: ${desc}
+            **Current Version**: \`${currentVersion}\`
+            **Next Version**: \`${nextVersion}\`
+            
+            ---
+            
+            ### 📋 How to trigger different version bumps:
+            
+            - **Patch Release** (\`x.x.X\`): Use \`fix:\`, \`perf:\`, or \`docs:\` prefix
+              - Example: \`fix: resolve issue with todo deletion\`
+            
+            - **Minor Release** (\`x.X.0\`): Use \`feat:\` prefix
+              - Example: \`feat: add support for todo priorities\`
+            
+            - **Major Release** (\`X.0.0\`): Add \`BREAKING CHANGE\` in commit body or use \`!\` after type
+              - Example: \`feat!: change CLI argument structure\`
+              - Example: \`feat: new API\` with \`BREAKING CHANGE: removed old flags\` in body
+            
+            ---
+            
+            *This preview is automatically updated when commits are added to this PR.*`;
+            
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && comment.body.includes('Release Preview')
+            );
+            
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: body
+              });
+            }

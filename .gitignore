@@ -1,0 +1,7 @@
+.idea/
+*.iml
+
+/tada
+/coverage.txt
+
+/vendor

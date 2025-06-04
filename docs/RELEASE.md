@@ -71,18 +71,6 @@ The old --add flag is replaced with the 'add' subcommand.
     - Git tag is created
     - GitHub Release is published
 
-## Manual Release (if needed)
-
-If you need to manually trigger a release:
-
-```bash
-# Install dependencies
-npm install -g semantic-release @semantic-release/git @semantic-release/github @semantic-release/changelog @semantic-release/exec
-
-# Run semantic-release
-GITHUB_TOKEN=your_token npx semantic-release
-```
-
 ## Setup Instructions
 
 1. **Create VERSION file** (if not exists):

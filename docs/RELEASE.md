@@ -2,17 +2,17 @@
 
 ## Overview
 
-This repository uses automated semantic versioning based on [Conventional Commits](https://www.conventionalcommits.org/). When PRs are merged to `main`, the version is automatically bumped based on the commit messages.
+This repository uses automated semantic versioning based on [Conventional Commits](https://www.conventionalcommits.org/).When PRs are merged to `main`, the version is automatically bumped based on the commit messages.
 
 ## How It Works
 
 ### Version Bumping Rules
 
-| Commit Type | Version Bump | Example |
-|-------------|--------------|---------|
-| `fix:` | Patch (0.0.X) | `fix: resolve issue with todo deletion` |
-| `feat:` | Minor (0.X.0) | `feat: add support for todo priorities` |
-| `feat!:` or `BREAKING CHANGE` | Major (X.0.0) | `feat!: change CLI argument structure` |
+| Commit Type                   | Version Bump  | Example                                 |
+|-------------------------------|---------------|-----------------------------------------|
+| `fix:`                        | Patch (0.0.X) | `fix: resolve issue with todo deletion` |
+| `feat:`                       | Minor (0.X.0) | `feat: add support for todo priorities` |
+| `feat!:` or `BREAKING CHANGE` | Major (X.0.0) | `feat!: change CLI argument structure`  |
 
 ### Commit Message Format
 

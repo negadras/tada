@@ -13,7 +13,7 @@ jobs:
 
       - uses: wagoid/commitlint-github-action@9763196e10f27aef304c9b8b660d31d97fce0f99 # v5
         with:
-          configFile: commitlint.config.js
+          configFile: commitlint.config.mjs
           helpURL: |
             Please use conventional commit format:
             

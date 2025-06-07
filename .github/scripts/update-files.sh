@@ -9,7 +9,7 @@ if [ -f "Formula/tada.rb" ]; then
   echo "Current formula content:"
   grep -n "tag:" Formula/tada.rb || true
 
-  # Create a temporary file for the sed operation (works on both Linux and macOS)
+  # Create a temporary file for the sed operation
   cp Formula/tada.rb Formula/tada.rb.tmp
   sed -E "s/tag:[[:space:]]+\"[^\"]+\"/tag:      \"${VERSION}\"/" Formula/tada.rb.tmp > Formula/tada.rb
   rm Formula/tada.rb.tmp

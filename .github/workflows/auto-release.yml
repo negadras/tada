@@ -44,10 +44,6 @@ jobs:
             @semantic-release/exec \
             conventional-changelog-conventionalcommits
 
-      # .releaserc.json is now in the repository root
-
-      # Scripts are now in the repository
-
       - name: Run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

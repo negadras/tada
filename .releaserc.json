@@ -1,37 +1,88 @@
 {
-  "branches": ["main"],
-  "tagFormat": "${version}",
-  "plugins": [
+  "branches":[
+    "main"
+  ],
+  "tagFormat":"${version}",
+  "plugins":[
     [
       "@semantic-release/commit-analyzer",
       {
-        "preset": "conventionalcommits",
-        "releaseRules": [
-          {"breaking": true, "release": "major"},
-          {"revert": true, "release": "patch"},
-          {"type": "feat", "release": "minor"},
-          {"type": "fix", "release": "patch"},
-          {"type": "perf", "release": "patch"},
-          {"type": "docs", "scope": "README", "release": "patch"}
+        "preset":"conventionalcommits",
+        "releaseRules":[
+          {
+            "breaking":true,
+            "release":"major"
+          },
+          {
+            "revert":true,
+            "release":"patch"
+          },
+          {
+            "type":"feat",
+            "release":"minor"
+          },
+          {
+            "type":"fix",
+            "release":"patch"
+          },
+          {
+            "type":"perf",
+            "release":"patch"
+          },
+          {
+            "type":"docs",
+            "scope":"README",
+            "release":"patch"
+          }
         ]
       }
     ],
     [
       "@semantic-release/release-notes-generator",
       {
-        "preset": "conventionalcommits",
-        "presetConfig": {
-          "types": [
-            {"type": "feat", "section": "✨ Features"},
-            {"type": "fix", "section": "🐛 Bug Fixes"},
-            {"type": "perf", "section": "⚡ Performance"},
-            {"type": "revert", "section": "⏪ Reverts"},
-            {"type": "docs", "section": "📚 Documentation"},
-            {"type": "style", "section": "💅 Style"},
-            {"type": "refactor", "section": "♻️ Refactoring"},
-            {"type": "test", "section": "✅ Tests"},
-            {"type": "build", "section": "📦 Build"},
-            {"type": "ci", "section": "👷 CI"}
+        "preset":"conventionalcommits",
+        "presetConfig":{
+          "types":[
+            {
+              "type":"feat",
+              "section":"✨ Features"
+            },
+            {
+              "type":"fix",
+              "section":"🐛 Bug Fixes"
+            },
+            {
+              "type":"perf",
+              "section":"⚡ Performance"
+            },
+            {
+              "type":"revert",
+              "section":"⏪ Reverts"
+            },
+            {
+              "type":"docs",
+              "section":"📚 Documentation"
+            },
+            {
+              "type":"style",
+              "section":"💅 Style"
+            },
+            {
+              "type":"refactor",
+              "section":"♻️ Refactoring"
+            },
+            {
+              "type":"test",
+              "section":"✅ Tests"
+            },
+            {
+              "type":"build",
+              "section":"📦 Build"
+            },
+            {
+              "type":"ci",
+              "section":"👷 CI"
+            }
           ]
         }
       }
@@ -39,32 +90,32 @@
     [
       "@semantic-release/changelog",
       {
-        "changelogFile": "CHANGELOG.md"
+        "changelogFile":"CHANGELOG.md"
       }
     ],
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "bash .github/scripts/update-files.sh ${nextRelease.version}"
+        "prepareCmd":"bash .github/scripts/update-files.sh ${nextRelease.version}"
       }
     ],
     [
       "@semantic-release/git",
       {
-        "assets": [
+        "assets":[
           "CHANGELOG.md",
           "Formula/tada.rb",
           "VERSION",
           "cmd/version.go"
         ],
-        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        "message":"chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ],
     [
       "@semantic-release/github",
       {
-        "successComment": false,
-        "failComment": false
+        "successComment":false,
+        "failComment":false
       }
     ]
   ]

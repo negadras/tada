@@ -1,3 +1,13 @@
+## [1.0.4](https://github.com/negadras/tada/compare/1.0.3...1.0.4) (2025-06-07)
+
+### 🐛 Bug Fixes
+
+* **commitlint:** use .mjs extension for config file ([#21](https://github.com/negadras/tada/issues/21)) ([642c641](https://github.com/negadras/tada/commit/642c641324a3db15b1cc2b422eb9492117eade6d))
+
+### ♻️ Refactoring
+
+* some refacotr and adding a task list to be done ([#15](https://github.com/negadras/tada/issues/15)) ([73c600b](https://github.com/negadras/tada/commit/73c600b40e17d098248ba0f3692ddda594078c11))
+
 ## [1.0.3](https://github.com/negadras/tada/compare/1.0.2...1.0.3) (2025-06-04)
 
 ### 🐛 Bug Fixes

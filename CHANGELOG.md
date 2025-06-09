@@ -1,3 +1,13 @@
+## [2.0.0](https://github.com/negadras/tada/compare/1.4.0...2.0.0) (2025-06-09)
+
+### ⚠ BREAKING CHANGES
+
+* None - all commands work the same way
+
+### ✨ Features
+
+* simplify todo app architecture and reduce over-engineering ([#31](https://github.com/negadras/tada/issues/31)) ([225fefc](https://github.com/negadras/tada/commit/225fefc06b0d83bf3d251c46d3175e1516ef7b27))
+
 ## [1.4.0](https://github.com/negadras/tada/compare/1.3.0...1.4.0) (2025-06-09)
 
 ### ✨ Features

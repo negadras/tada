@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/negadras/tada/compare/1.0.4...1.1.0) (2025-06-09)
+
+### ✨ Features
+
+* implement SQLite db and add command ([#24](https://github.com/negadras/tada/issues/24)) ([df3cbf7](https://github.com/negadras/tada/commit/df3cbf7b9840a9145595182526ae182d325e58ad))
+
 ## [1.0.4](https://github.com/negadras/tada/compare/1.0.3...1.0.4) (2025-06-07)
 
 ### 🐛 Bug Fixes

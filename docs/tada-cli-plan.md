@@ -2,7 +2,7 @@
 - [ ] tada CLI
     -  ✅ add task
     -  ✅ list tasks
-    -  [ ] delete task
+    -  ✅ delete task
     -  [ ] edit task
     -  [ ] get task
     -  [ ] report bug (example CLI that does that was 🤔)

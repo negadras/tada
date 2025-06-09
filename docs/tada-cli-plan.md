@@ -4,6 +4,10 @@
     -  [ ] delete task
     -  [ ] edit task
     -  [ ] get task
+    -  [ ] report bug (example CLI that does that was 🤔)
+    -  [ ] task need to have type (person, job, ... ) and user can add type, what should be default
+- [ ] possible features
+  - [ ] creating issues for tada at `negadras/tada` or report it in #bonial-cli Slack channel `gh issue create`
 
 ## Data Storage 
 - [ ] set up a SQLite database

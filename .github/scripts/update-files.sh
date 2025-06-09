@@ -31,10 +31,4 @@ if [ -f "cmd/version.go" ]; then
   echo "✅ Updated cmd/version.go"
 fi
 
-# Update version in main.go if exists
-if [ -f "main.go" ] && grep -q 'var version = ' main.go; then
-  cp main.go main.go.tmp
-  sed -E "s/var version = \"[^\"]*\"/var version = \"${VERSION}\"/" main.go.tmp > main.go
-  rm main.go.tmp
-  echo "✅ Updated main.go"
-fi
+echo "📋 Files updated successfully for version ${VERSION}"

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch: # allow manual triggering
 
 permissions:
   contents: write
@@ -54,6 +55,9 @@ jobs:
           
           echo "📋 Current tags:"
           git tag -l | tail -5
+          
+          echo "📋 Current VERSION file:"
+          cat VERSION || echo "No VERSION file"
           
           # Run semantic-release with debug output
           npx semantic-release --debug

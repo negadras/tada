@@ -26,20 +26,12 @@ Priority levels:
   tada add "Clean up code"`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			// Get database path
-			dbPath, err := todo.GetDatabasePath()
+			// Get database connection
+			db, cleanup, err := todo.GetDB(cmd)
 			if err != nil {
-				todo.PrintError(cmd, err)
 				return nil
 			}
-
-			// Open database
-			db, err := todo.NewDB(dbPath)
-			if err != nil {
-				todo.PrintError(cmd, err)
-				return nil
-			}
-			defer db.Close()
+			defer cleanup()
 
 			// Validate description
 			description := strings.TrimSpace(args[0])

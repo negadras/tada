@@ -3,9 +3,8 @@ package cmd
 import (
 	"fmt"
 	"github.com/negadras/tada/cmd/db"
+	"github.com/negadras/tada/utils"
 	"github.com/spf13/cobra"
-	"os"
-	"path/filepath"
 	"strings"
 )
 
@@ -28,7 +27,7 @@ Priority levels:
   tada add "Clean up code"`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			todoDB, err := getTodoDB()
+			todoDB, err := db.GetTodoDB()
 			if err != nil {
 				return fmt.Errorf("failed to open database: %w", err)
 			}
@@ -40,7 +39,7 @@ Priority levels:
 			}
 
 			priorityFlag, _ := cmd.Flags().GetString("priority")
-			priority, err := parsePriority(priorityFlag)
+			priority, err := utils.ParsePriority(priorityFlag)
 			if err != nil {
 				return fmt.Errorf("invalid priority '%s':%w", priorityFlag, err)
 			}
@@ -60,38 +59,4 @@ Priority levels:
 
 	cmd.Flags().StringP("priority", "p", "medium", "Priority level (low/l, medium/m, high/h)")
 	return cmd
-}
-
-// getTodoDB initializes the database connection with proper path handling
-func getTodoDB() (*db.TodoDB, error) {
-	// Get user's home directory
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		return nil, fmt.Errorf("failed to get home directory: %w", err)
-	}
-
-	// Create .tada directory if it doesn't exist
-	tadaDir := filepath.Join(homeDir, ".tada")
-	if err := os.MkdirAll(tadaDir, 0755); err != nil {
-		return nil, fmt.Errorf("failed to create .tada directory: %w", err)
-	}
-
-	// Database file path
-	dbPath := filepath.Join(tadaDir, "todos.db")
-
-	return db.NewTodoDB(dbPath)
-}
-
-// parsePriority converts string priority to Priority enum
-func parsePriority(priorityStr string) (db.Priority, error) {
-	switch strings.ToLower(strings.TrimSpace(priorityStr)) {
-	case "low", "l", "1":
-		return db.Low, nil
-	case "medium", "m", "2":
-		return db.Medium, nil
-	case "high", "h", "3":
-		return db.High, nil
-	default:
-		return db.Medium, fmt.Errorf("must be one of: low, medium, high (or l, m, h)")
-	}
 }

@@ -2,6 +2,9 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
+	"os"
+	"path/filepath"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -89,6 +92,26 @@ CREATE INDEX IF NOT EXISTS idx_todos_created_at ON todos(created_at);
 
 type TodoDB struct {
 	db *sql.DB
+}
+
+// GetTodoDB initializes the database connection with proper path handling
+func GetTodoDB() (*TodoDB, error) {
+	// Get user's home directory
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get home directory: %w", err)
+	}
+
+	// Create .tada directory if it doesn't exist
+	tadaDir := filepath.Join(homeDir, ".tada")
+	if err := os.MkdirAll(tadaDir, 0755); err != nil {
+		return nil, fmt.Errorf("failed to create .tada directory: %w", err)
+	}
+
+	// Database file path
+	dbPath := filepath.Join(tadaDir, "todos.db")
+
+	return NewTodoDB(dbPath)
 }
 
 func NewTodoDB(dbPath string) (*TodoDB, error) {

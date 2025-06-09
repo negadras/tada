@@ -1,3 +1,13 @@
+## [1.3.0](https://github.com/negadras/tada/compare/1.2.0...1.3.0) (2025-06-09)
+
+### ✨ Features
+
+* **cmd:** add done command to mark todos as completed ([#28](https://github.com/negadras/tada/issues/28)) ([1268669](https://github.com/negadras/tada/commit/1268669449f6416d3c71c6eb3e3c515edeb8adda))
+
+### ♻️ Refactoring
+
+* restructure project with improved architecture ([#27](https://github.com/negadras/tada/issues/27)) ([cbf1930](https://github.com/negadras/tada/commit/cbf19302e3507ee3c40262ba6d503303188e377c))
+
 ## [1.2.0](https://github.com/negadras/tada/compare/1.1.1...1.2.0) (2025-06-09)
 
 ### ✨ Features

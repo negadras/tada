@@ -24,7 +24,7 @@ func newQuoteCommand() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			randomQuote := Quote[rand.Intn(len(Quote))]
 
-			cmd.Printf("\n 💬 %s\n", randomQuote)
+			cmd.Printf("\n %s\n", randomQuote)
 			return nil
 		},
 	}

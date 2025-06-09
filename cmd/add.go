@@ -1,11 +1,10 @@
 package cmd
 
 import (
-	"fmt"
-	"github.com/negadras/tada/cmd/db"
-	"github.com/negadras/tada/utils"
-	"github.com/spf13/cobra"
 	"strings"
+
+	"github.com/negadras/tada/internal/todo"
+	"github.com/spf13/cobra"
 )
 
 func newAddTadaCommand() *cobra.Command {
@@ -27,32 +26,44 @@ Priority levels:
   tada add "Clean up code"`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			todoDB, err := db.GetTodoDB()
+			// Get database path
+			dbPath, err := todo.GetDatabasePath()
 			if err != nil {
-				return fmt.Errorf("failed to open database: %w", err)
+				todo.PrintError(cmd, err)
+				return nil
 			}
-			defer todoDB.Close()
 
+			// Open database
+			db, err := todo.NewDB(dbPath)
+			if err != nil {
+				todo.PrintError(cmd, err)
+				return nil
+			}
+			defer db.Close()
+
+			// Validate description
 			description := strings.TrimSpace(args[0])
-			if description == "" {
-				return fmt.Errorf("task description cannot be empty")
+			if err := todo.ValidateDescription(description); err != nil {
+				todo.PrintError(cmd, err)
+				return nil
 			}
 
+			// Parse priority
 			priorityFlag, _ := cmd.Flags().GetString("priority")
-			priority, err := utils.ParsePriority(priorityFlag)
+			priority, err := todo.ParsePriority(priorityFlag)
 			if err != nil {
-				return fmt.Errorf("invalid priority '%s':%w", priorityFlag, err)
+				todo.PrintError(cmd, err)
+				return nil
 			}
 
-			todo, err := todoDB.CreateTodo(description, priority)
+			// Create todo
+			newTodo, err := db.Create(description, priority)
 			if err != nil {
-				return fmt.Errorf("failed to create todo: %w", err)
+				todo.PrintError(cmd, err)
+				return nil
 			}
 
-			cmd.Printf("✅ Created todo #%d: %s\n", todo.ID, todo.Description)
-			cmd.Printf("   Priority: %s\n", priority.String())
-			cmd.Printf("   Status: %s\n", todo.Status.String())
-
+			todo.PrintCreated(cmd, newTodo)
 			return nil
 		},
 	}

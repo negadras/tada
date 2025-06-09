@@ -1,3 +1,9 @@
+## [1.4.0](https://github.com/negadras/tada/compare/1.3.0...1.4.0) (2025-06-09)
+
+### ✨ Features
+
+* **cmd:** add delete command to remove todos ([#29](https://github.com/negadras/tada/issues/29)) ([eba7ce0](https://github.com/negadras/tada/commit/eba7ce0a5a4077edaa6a065cf6c70fff8efb2e04))
+
 ## [1.3.0](https://github.com/negadras/tada/compare/1.2.0...1.3.0) (2025-06-09)
 
 ### ✨ Features

@@ -1,6 +1,7 @@
 ## CLI commands
 - [ ] tada CLI
-    -  [ ] add task
+    -  ✅ add task
+    -  ✅ list tasks
     -  [ ] delete task
     -  [ ] edit task
     -  [ ] get task
@@ -10,12 +11,12 @@
   - [ ] creating issues for tada at `negadras/tada` or report it in #bonial-cli Slack channel `gh issue create`
 
 ## Data Storage 
-- [ ] set up a SQLite database
-  -  [ ] open SQLite DB
-  -  [ ] add task
-  -  [ ] delete task
-  -  [ ] edit task
-  -  [ ] get task
+- set up a SQLite database
+  -  ✅ open SQLite DB
+  -  ✅ add task
+  -  ✅ delete task
+  -  ✅ edit task
+  -  ✅ get task
 
 
 ## Display

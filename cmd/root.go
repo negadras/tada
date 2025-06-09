@@ -20,6 +20,7 @@ todo list, edit, close ...`,
 	}
 
 	cmd.AddCommand(newQuoteCommand())
+	cmd.AddCommand(newAddTadaCommand())
 
 	return cmd
 }

@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/negadras/tada/compare/1.1.0...1.1.1) (2025-06-09)
+
+### 🐛 Bug Fixes
+
+* **ci:** repair auto-release workflow configuration ([#25](https://github.com/negadras/tada/issues/25)) ([67d3a2e](https://github.com/negadras/tada/commit/67d3a2e84fe45d75ad79c653de2afd69c37b7433))
+
 ## [1.1.0](https://github.com/negadras/tada/compare/1.0.4...1.1.0) (2025-06-09)
 
 ### ✨ Features

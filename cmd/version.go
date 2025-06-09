@@ -6,7 +6,7 @@ import (
 )
 
 // Version is set during build time
-var Version = "1.1.1"
+var Version = "1.2.0"
 
 func newVersionCommand() *cobra.Command {
 	return &cobra.Command{

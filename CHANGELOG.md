@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/negadras/tada/compare/1.1.1...1.2.0) (2025-06-09)
+
+### ✨ Features
+
+* implement list todo tasks with optional filter ([#26](https://github.com/negadras/tada/issues/26)) ([35d2a3b](https://github.com/negadras/tada/commit/35d2a3b1aac9ec05b865991a61a5b6a96008fe0d))
+
 ## [1.1.1](https://github.com/negadras/tada/compare/1.1.0...1.1.1) (2025-06-09)
 
 ### 🐛 Bug Fixes

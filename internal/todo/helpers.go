@@ -100,6 +100,27 @@ func PrintSuccess(cmd *cobra.Command, message string) {
 	cmd.Printf("✅ %s\n", message)
 }
 
+// GetDB is a helper function to get database connection with error handling
+func GetDB(cmd *cobra.Command) (*DB, func(), error) {
+	dbPath, err := GetDatabasePath()
+	if err != nil {
+		PrintError(cmd, err)
+		return nil, nil, err
+	}
+
+	db, err := NewDB(dbPath)
+	if err != nil {
+		PrintError(cmd, err)
+		return nil, nil, err
+	}
+
+	cleanup := func() {
+		db.Close()
+	}
+
+	return db, cleanup, nil
+}
+
 // formatAge converts duration to human-readable format
 func formatAge(duration time.Duration) string {
 	if duration < time.Minute {

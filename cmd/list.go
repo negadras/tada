@@ -36,20 +36,12 @@ Priority filtering:
   # List all high priority tasks (open and done)
   tada list --status all --priority high`,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			// Get database path
-			dbPath, err := todo.GetDatabasePath()
+			// Get database connection
+			db, cleanup, err := todo.GetDB(cmd)
 			if err != nil {
-				todo.PrintError(cmd, err)
 				return nil
 			}
-
-			// Open database
-			db, err := todo.NewDB(dbPath)
-			if err != nil {
-				todo.PrintError(cmd, err)
-				return nil
-			}
-			defer db.Close()
+			defer cleanup()
 
 			// Parse status filter
 			statusFlag, _ := cmd.Flags().GetString("status")

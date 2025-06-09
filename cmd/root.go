@@ -25,6 +25,7 @@ todo list, edit, close ...`,
 	cmd.AddCommand(newVersionCommand())
 	cmd.AddCommand(newListTadaCommand())
 	cmd.AddCommand(newDoneCommand())
+	cmd.AddCommand(newDeleteCommand())
 
 	return cmd
 }

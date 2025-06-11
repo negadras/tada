@@ -21,7 +21,6 @@ func ValidateDescription(desc string) error {
 	return nil
 }
 
-// ParsePriority converts string priority to Priority enum
 func ParsePriority(priorityStr string) (Priority, error) {
 	switch strings.ToLower(strings.TrimSpace(priorityStr)) {
 	case "low", "l", "1":
@@ -35,7 +34,6 @@ func ParsePriority(priorityStr string) (Priority, error) {
 	}
 }
 
-// ParseStatus converts string status to Status enum
 func ParseStatus(status string) (Status, error) {
 	switch strings.ToLower(strings.TrimSpace(status)) {
 	case "open", "o", "1":
@@ -47,27 +45,9 @@ func ParseStatus(status string) (Status, error) {
 	}
 }
 
-// Formatting helpers
-
-// PrintList formats and displays a list of todos
-func PrintList(cmd *cobra.Command, todos []*Todo) {
-	if len(todos) == 0 {
-		cmd.Println("📝 No todos found matching your criteria.")
-		return
-	}
-
-	cmd.Printf("📋 Found %d todo(s):\n\n", len(todos))
-
-	for _, todo := range todos {
-		PrintTodo(cmd, todo)
-		cmd.Println()
-	}
-}
-
-// PrintTodo formats and displays a single todo
 func PrintTodo(cmd *cobra.Command, todo *Todo) {
-	priorityIcon := getPriorityIcon(todo.Priority)
-	age := formatAge(todo.Age())
+	priorityIcon := GetPriorityIcon(todo.Priority)
+	age := FormatAge(todo.Age())
 
 	cmd.Printf("%s [#%d] %s\n", priorityIcon, todo.ID, todo.Description)
 	cmd.Printf("   Priority: %-8s Status: %-6s Age: %s\n",
@@ -76,29 +56,25 @@ func PrintTodo(cmd *cobra.Command, todo *Todo) {
 		age)
 
 	if todo.Status == Done && todo.CompletedAt != nil {
-		completedAge := formatAge(*todo.CompletedAge())
+		completedAge := FormatAge(*todo.CompletedAge())
 		cmd.Printf("   Completed: %s ago\n", completedAge)
 	}
 }
 
-// PrintCreated formats the output when a todo is created
 func PrintCreated(cmd *cobra.Command, todo *Todo) {
 	cmd.Printf("✅ Created todo #%d: %s\n", todo.ID, todo.Description)
 	cmd.Printf("   Priority: %s\n", todo.Priority.String())
 	cmd.Printf("   Status: %s\n", todo.Status.String())
 }
 
-// PrintError formats error messages consistently
 func PrintError(cmd *cobra.Command, err error) {
 	cmd.Printf("❌ Error: %v\n", err)
 }
 
-// PrintSuccess formats success messages consistently
 func PrintSuccess(cmd *cobra.Command, message string) {
 	cmd.Printf("✅ %s\n", message)
 }
 
-// GetDB is a helper function to get database connection with error handling
 func GetDB(cmd *cobra.Command) (*DB, func(), error) {
 	dbPath, err := GetDatabasePath()
 	if err != nil {
@@ -119,8 +95,7 @@ func GetDB(cmd *cobra.Command) (*DB, func(), error) {
 	return db, cleanup, nil
 }
 
-// formatAge converts duration to human-readable format
-func formatAge(duration time.Duration) string {
+func FormatAge(duration time.Duration) string {
 	if duration < time.Minute {
 		seconds := int(duration.Seconds())
 		if seconds <= 1 {
@@ -148,8 +123,7 @@ func formatAge(duration time.Duration) string {
 	}
 }
 
-// getPriorityIcon returns an emoji icon for the priority level
-func getPriorityIcon(priority Priority) string {
+func GetPriorityIcon(priority Priority) string {
 	switch priority {
 	case Low:
 		return "🟢"

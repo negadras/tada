@@ -2,6 +2,7 @@ package list
 
 import (
 	"github.com/negadras/tada/internal/todo"
+	"github.com/negadras/tada/internal/ui"
 	"github.com/spf13/cobra"
 )
 
@@ -36,14 +37,12 @@ Priority filtering:
   # List all high priority tasks (open and done)
   tada list --status all --priority high`,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			// Get database connection
 			db, cleanup, err := todo.GetDB(cmd)
 			if err != nil {
 				return nil
 			}
 			defer cleanup()
 
-			// Parse status filter
 			statusFlag, _ := cmd.Flags().GetString("status")
 			var statusFilter *todo.Status
 
@@ -55,8 +54,6 @@ Priority filtering:
 				}
 				statusFilter = &status
 			}
-
-			// Parse priority filter
 			priorityFlag, _ := cmd.Flags().GetString("priority")
 			var priorityFilter *todo.Priority
 
@@ -69,19 +66,18 @@ Priority filtering:
 				priorityFilter = &priority
 			}
 
-			// List todos
 			tasks, err := db.List(statusFilter, priorityFilter)
 			if err != nil {
 				todo.PrintError(cmd, err)
 				return nil
 			}
 
-			todo.PrintList(cmd, tasks)
-			return nil
+			return ui.ShowTable(tasks)
 		},
 	}
 
 	cmd.Flags().StringP("status", "s", "open", "Status filter (open/o, done/d, all/a)")
 	cmd.Flags().StringP("priority", "p", "all", "Priority filter (low/l, medium/m, high/h, all/a)")
+
 	return cmd
 }

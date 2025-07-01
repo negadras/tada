@@ -1,4 +1,4 @@
-package cmd
+package update
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func newUpdateCommand() *cobra.Command {
+func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "update [id]",
 		Short: "Update a todo task",

@@ -1,4 +1,4 @@
-package cmd
+package version
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 // Version is set during build time
 var Version = "2.0.0"
 
-func newVersionCommand() *cobra.Command {
+func NewCommand() *cobra.Command {
 	return &cobra.Command{
 		Use:   "version",
 		Short: "Print the version number of tada",

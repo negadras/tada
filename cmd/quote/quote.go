@@ -1,4 +1,4 @@
-package cmd
+package quote
 
 import (
 	"github.com/spf13/cobra"
@@ -17,7 +17,7 @@ var Quote = []string{
 	"⚡ Inspiration is perishable. Act on it immediately",
 }
 
-func newQuoteCommand() *cobra.Command {
+func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "quote",
 		Short: "Get a random quote from our list",

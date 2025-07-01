@@ -1,11 +1,11 @@
-package cmd
+package list
 
 import (
 	"github.com/negadras/tada/internal/todo"
 	"github.com/spf13/cobra"
 )
 
-func newListTadaCommand() *cobra.Command {
+func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "List all todos",

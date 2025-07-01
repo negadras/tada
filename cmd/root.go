@@ -3,6 +3,11 @@ package cmd
 import (
 	"fmt"
 	"github.com/fatih/color"
+	"github.com/negadras/tada/cmd/add"
+	"github.com/negadras/tada/cmd/list"
+	"github.com/negadras/tada/cmd/quote"
+	"github.com/negadras/tada/cmd/update"
+	"github.com/negadras/tada/cmd/version"
 	"github.com/negadras/tada/internal/todo"
 	"github.com/spf13/cobra"
 	"os"
@@ -22,14 +27,14 @@ todo list, edit, close ...`,
 	}
 
 	// Main commands
-	addCmd := newAddTadaCommand()
-	listCmd := newListTadaCommand()
-	updateCmd := newUpdateCommand()
+	addCmd := add.NewCommand()
+	listCmd := list.NewCommand()
+	updateCmd := update.NewCommand()
 	deleteCmd := newDeleteCommand()
 
-	cmd.AddCommand(newQuoteCommand())
+	cmd.AddCommand(quote.NewCommand())
 	cmd.AddCommand(addCmd)
-	cmd.AddCommand(newVersionCommand())
+	cmd.AddCommand(version.NewCommand())
 	cmd.AddCommand(listCmd)
 	cmd.AddCommand(updateCmd)
 	cmd.AddCommand(deleteCmd)
@@ -73,7 +78,7 @@ func createDoneCommand() *cobra.Command {
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// Create update command and set the status flag
-			updateCmd := newUpdateCommand()
+			updateCmd := update.NewCommand()
 			updateCmd.SetArgs(append(args, "--status", "done"))
 			return updateCmd.Execute()
 		},
@@ -90,7 +95,7 @@ func createOpenCommand() *cobra.Command {
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// Create update command and set the status flag
-			updateCmd := newUpdateCommand()
+			updateCmd := update.NewCommand()
 			updateCmd.SetArgs(append(args, "--status", "open"))
 			return updateCmd.Execute()
 		},

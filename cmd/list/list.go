@@ -8,7 +8,7 @@ import (
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "List all todos",
+		Short: "List todo tasks",
 		Long: `List all the todo tasks with optional filtering.
 
 Status filtering: 

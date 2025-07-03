@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/negadras/tada/cmd/add"
+	"github.com/negadras/tada/cmd/delete"
 	"github.com/negadras/tada/cmd/list"
 	"github.com/negadras/tada/cmd/quote"
 	"github.com/negadras/tada/cmd/update"
 	"github.com/negadras/tada/cmd/version"
-	"github.com/negadras/tada/internal/todo"
 	"github.com/spf13/cobra"
 	"os"
-	"strconv"
 )
 
 func newRootCommand() *cobra.Command {
@@ -30,7 +29,7 @@ todo list, edit, close ...`,
 	addCmd := add.NewCommand()
 	listCmd := list.NewCommand()
 	updateCmd := update.NewCommand()
-	deleteCmd := newDeleteCommand()
+	deleteCmd := delete.NewCommand()
 
 	cmd.AddCommand(quote.NewCommand())
 	cmd.AddCommand(addCmd)
@@ -120,51 +119,6 @@ func createAliasesCommand() *cobra.Command {
 			cmd.Println("  tada ls                    # List all todos")
 			cmd.Println("  tada rm 5                  # Delete todo #5")
 			cmd.Println("  tada done 3                # Mark todo #3 as done")
-		},
-	}
-}
-
-func newDeleteCommand() *cobra.Command {
-	return &cobra.Command{
-		Use:   "delete [id]",
-		Short: "Delete a todo",
-		Example: `  # Delete todo #5
-  tada delete 5`,
-		Args: cobra.ExactArgs(1),
-		RunE: func(cmd *cobra.Command, args []string) error {
-			id, err := strconv.Atoi(args[0])
-			if err != nil {
-				todo.PrintError(cmd, err)
-				return nil
-			}
-
-			dbPath, err := todo.GetDatabasePath()
-			if err != nil {
-				todo.PrintError(cmd, err)
-				return nil
-			}
-
-			db, err := todo.NewDB(dbPath)
-			if err != nil {
-				todo.PrintError(cmd, err)
-				return nil
-			}
-			defer db.Close()
-
-			// Get todo before deletion
-			todoItem, err := db.Get(id)
-			if err != nil {
-				todo.PrintError(cmd, err)
-				return nil
-			}
-
-			if err := db.Delete(id); err != nil {
-				todo.PrintError(cmd, err)
-				return nil
-			}
-
-			cmd.Printf("🗑️  Deleted todo #%d: %s\n", id, todoItem.Description)
-			return nil
 		},
 	}
 }

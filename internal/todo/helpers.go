@@ -9,8 +9,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Validation helpers
-
 // ValidateDescription checks if a description is valid
 func ValidateDescription(desc string) error {
 	desc = strings.TrimSpace(desc)

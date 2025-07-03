@@ -12,17 +12,12 @@ import (
 
 var (
 	baseStyle = lipgloss.NewStyle().
-			BorderStyle(lipgloss.NormalBorder()).
-			BorderForeground(lipgloss.Color("240"))
-
-	headerStyle = lipgloss.NewStyle().
-			Bold(true).
-			Foreground(lipgloss.Color("229")).
-			Background(lipgloss.Color("57"))
+		BorderStyle(lipgloss.NormalBorder()).
+		BorderForeground(lipgloss.Color("240"))
 
 	selectedStyle = lipgloss.NewStyle().
-			Foreground(lipgloss.Color("229")).
-			Background(lipgloss.Color("57"))
+		Foreground(lipgloss.Color("229")).
+		Background(lipgloss.Color("57"))
 )
 
 type TableModel struct {
@@ -34,24 +29,30 @@ type TableModel struct {
 func NewTableModel(todos []*todo.Todo) TableModel {
 	// Define columns
 	columns := []table.Column{
-		{Title: "ID", Width: 4},
-		{Title: "Description", Width: 50},
-		{Title: "Priority", Width: 8},
-		{Title: "Status", Width: 6},
-		{Title: "Age", Width: 12},
+		{Title: "ID", Width: 6},
+		{Title: "Priority", Width: 12},
+		{Title: "Status", Width: 8},
+		{Title: "Age", Width: 10},
+		{Title: "Description", Width: 80},
 	}
 
 	rows := make([]table.Row, len(todos))
 	for i, t := range todos {
-		// Use the helper function to get priority icon
+		// helper func to get priority icon
 		priorityIcon := todo.GetPriorityIcon(t.Priority)
 
+		id := fmt.Sprintf("#%d", t.ID)
+		priority := priorityIcon + " " + t.Priority.String()
+		status := t.Status.String()
+		age := todo.FormatAge(t.Age())
+		description := t.Description
+
 		rows[i] = table.Row{
-			fmt.Sprintf("#%d", t.ID),
-			t.Description,
-			priorityIcon + " " + t.Priority.String(),
-			t.Status.String(),
-			todo.FormatAge(t.Age()),
+			id,
+			priority,
+			status,
+			age,
+			description,
 		}
 	}
 
@@ -63,7 +64,11 @@ func NewTableModel(todos []*todo.Todo) TableModel {
 	)
 
 	s := table.DefaultStyles()
-	s.Header = headerStyle
+	s.Header = s.Header.
+		BorderStyle(lipgloss.NormalBorder()).
+		BorderForeground(lipgloss.Color("240")).
+		BorderBottom(true).
+		Bold(true)
 	s.Selected = selectedStyle
 	t.SetStyles(s)
 

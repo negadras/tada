@@ -1,3 +1,19 @@
+## [2.1.0](https://github.com/negadras/tada/compare/2.0.0...2.1.0) (2025-07-04)
+
+### ✨ Features
+
+* **ui:** add interactive table view for list command using Bubble Tea ([#32](https://github.com/negadras/tada/issues/32)) ([e9ede61](https://github.com/negadras/tada/commit/e9ede61e68351e3d2c1e31d6f63a9289aad58636))
+
+### ♻️ Refactoring
+
+* extract delete command into separate package ([#36](https://github.com/negadras/tada/issues/36)) ([28f5da0](https://github.com/negadras/tada/commit/28f5da0eb4ff51f4485f6d5c6f8cd289d8448748))
+* extract delete command into separate package ([#36](https://github.com/negadras/tada/issues/36)) ([#37](https://github.com/negadras/tada/issues/37)) ([7bd7aa3](https://github.com/negadras/tada/commit/7bd7aa3facda96047a97e3ad7cf10af5a4df968f))
+
+### ✅ Tests
+
+* add test coverage for internal todo and helpers package ([#35](https://github.com/negadras/tada/issues/35)) ([36a822d](https://github.com/negadras/tada/commit/36a822d0695affa839d72b0639329ee39045e57c))
+* add unit tests for commands and improve documentation ([#34](https://github.com/negadras/tada/issues/34)) ([8a3c478](https://github.com/negadras/tada/commit/8a3c478d862165b8d35c08121101b2fe6ae0dc44))
+
 ## [2.0.0](https://github.com/negadras/tada/compare/1.4.0...2.0.0) (2025-06-09)
 
 ### ⚠ BREAKING CHANGES

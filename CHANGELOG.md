@@ -1,3 +1,9 @@
+## [2.2.0](https://github.com/negadras/tada/compare/2.1.1...2.2.0) (2025-07-14)
+
+### ✨ Features
+
+* **quote:** migrate quotes to database with full CRUD operations ([#39](https://github.com/negadras/tada/issues/39)) ([95625a6](https://github.com/negadras/tada/commit/95625a69e3747065e466a4030512fa8462f2c019))
+
 ## [2.1.1](https://github.com/negadras/tada/compare/2.1.0...2.1.1) (2025-07-14)
 
 ### 🐛 Bug Fixes

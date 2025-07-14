@@ -128,6 +128,21 @@ func createTables(db *sql.DB) error {
 	CREATE INDEX IF NOT EXISTS idx_todos_status ON todos(status);
 	CREATE INDEX IF NOT EXISTS idx_todos_priority ON todos(priority);
 	CREATE INDEX IF NOT EXISTS idx_todos_created_at ON todos(created_at);
+
+	-- Quotes table
+	CREATE TABLE IF NOT EXISTS quotes (
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		text TEXT NOT NULL,
+		author TEXT DEFAULT '',
+		category TEXT DEFAULT '',
+		created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+	);
+
+	-- Index for quotes
+	CREATE INDEX IF NOT EXISTS idx_quotes_author ON quotes(author);
+	CREATE INDEX IF NOT EXISTS idx_quotes_category ON quotes(category);
+	CREATE INDEX IF NOT EXISTS idx_quotes_created_at ON quotes(created_at);
 	`
 
 	_, err := db.Exec(schema)

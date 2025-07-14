@@ -1,3 +1,9 @@
+## [2.1.1](https://github.com/negadras/tada/compare/2.1.0...2.1.1) (2025-07-14)
+
+### 🐛 Bug Fixes
+
+* **deps:** update module github.com/charmbracelet/bubbletea to v1.3.6 ([#38](https://github.com/negadras/tada/issues/38)) ([7726190](https://github.com/negadras/tada/commit/7726190087311a84e5ef420e903f80b49f7200ea))
+
 ## [2.1.0](https://github.com/negadras/tada/compare/2.0.0...2.1.0) (2025-07-04)
 
 ### ✨ Features

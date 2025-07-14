@@ -15,7 +15,9 @@ func NewCommand() *cobra.Command {
 Priority levels:
   low, l     - Low priority (default)
   medium, m  - Medium priority
-  high, h    - High priority`,
+  high, h    - High priority
+
+💡 Tip: For interactive task management, try 'tada --tui'`,
 		Example: `  # Add a high priority task
   tada add "Fix the login bug" --priority high
   

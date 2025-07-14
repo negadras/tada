@@ -9,11 +9,11 @@ func TestNewCommand(t *testing.T) {
 		t.Errorf("NewCommand() Use = %s, want %s", cmd.Use, "quote")
 	}
 
-	if cmd.Short != "Show a motivational quote" {
-		t.Errorf("NewCommand() Short = %v, want 'Show a motivational quote'", cmd.Short)
+	if cmd.Short != "Manage and display motivational quotes" {
+		t.Errorf("NewCommand() Short = %v, want 'Manage and display motivational quotes'", cmd.Short)
 	}
 
-	if cmd.Long != "Display a random motivational quote to inspire productivity" {
+	if cmd.Long != "Manage your collection of motivational quotes with subcommands for adding, listing, updating, and deleting quotes. Running 'quote' without subcommands displays a random quote." {
 		t.Errorf("NewCommand() Long = %v, want expected long description", cmd.Long)
 	}
 }

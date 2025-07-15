@@ -1,3 +1,9 @@
+## [2.3.0](https://github.com/negadras/tada/compare/2.2.0...2.3.0) (2025-07-15)
+
+### ✨ Features
+
+* **tui:** implement add functionality for todos and quotes ([#40](https://github.com/negadras/tada/issues/40)) ([9771f32](https://github.com/negadras/tada/commit/9771f32d15c2e624bc95afdc6a40668f6b477a58))
+
 ## [2.2.0](https://github.com/negadras/tada/compare/2.1.1...2.2.0) (2025-07-14)
 
 ### ✨ Features

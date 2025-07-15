@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/negadras/tada/internal/quote"
+	"github.com/negadras/tada/internal/tui"
 	"github.com/spf13/cobra"
 )
 
@@ -14,7 +15,9 @@ func newUpdateCommand() *cobra.Command {
 		Short: "Update a quote",
 		Long: `Update various properties of a quote including text, author, and category.
 		
-At least one flag must be provided to specify what to update.`,
+At least one flag must be provided to specify what to update.
+
+💡 Tip: Use --tui flag to launch interactive edit mode`,
 		Example: `  # Update quote text
   tada quote update 5 --text "New quote text"
   
@@ -31,6 +34,11 @@ At least one flag must be provided to specify what to update.`,
   tada quote update 5 -t "New text" -a "Author" -c "category"`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
+			// Check if TUI mode is requested
+			tuiMode, _ := cmd.Flags().GetBool("tui")
+			if tuiMode {
+				return tui.RunWithScreen("quotes")
+			}
 			id, err := strconv.Atoi(args[0])
 			if err != nil {
 				quote.PrintError(cmd, err)
@@ -104,6 +112,7 @@ At least one flag must be provided to specify what to update.`,
 	cmd.Flags().StringP("text", "t", "", "Update quote text")
 	cmd.Flags().StringP("author", "a", "", "Update author")
 	cmd.Flags().StringP("category", "c", "", "Update category")
+	cmd.Flags().BoolP("tui", "", false, "Launch interactive TUI mode for editing")
 
 	return cmd
 }

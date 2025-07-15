@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/fatih/color"
 	"github.com/negadras/tada/cmd/add"
 	"github.com/negadras/tada/cmd/delete"
@@ -9,8 +11,8 @@ import (
 	"github.com/negadras/tada/cmd/quote"
 	"github.com/negadras/tada/cmd/update"
 	"github.com/negadras/tada/cmd/version"
+	"github.com/negadras/tada/internal/tui"
 	"github.com/spf13/cobra"
-	"os"
 )
 
 func newRootCommand() *cobra.Command {
@@ -22,6 +24,17 @@ todo list, edit, close ...`,
 		SilenceErrors: true,
 		PersistentPreRun: func(cmd *cobra.Command, args []string) {
 			cmd.SilenceUsage = true
+		},
+		RunE: func(cmd *cobra.Command, args []string) error {
+			// Check if TUI mode is requested
+			tuiMode, _ := cmd.Flags().GetBool("tui")
+			if tuiMode {
+				screen, _ := cmd.Flags().GetString("screen")
+				return tui.RunWithScreen(screen)
+			}
+			
+			// Default behavior: show help
+			return cmd.Help()
 		},
 	}
 
@@ -48,6 +61,10 @@ todo list, edit, close ...`,
 
 	// Help for aliases
 	cmd.AddCommand(createAliasesCommand())
+
+	// Add TUI flags
+	cmd.Flags().BoolP("tui", "t", false, "Launch interactive TUI mode")
+	cmd.Flags().StringP("screen", "s", "", "Launch TUI at specific screen (dashboard, todos, quotes)")
 
 	return cmd
 }

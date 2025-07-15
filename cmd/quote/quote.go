@@ -9,7 +9,7 @@ func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "quote",
 		Short: "Manage and display motivational quotes",
-		Long:  "Manage your collection of motivational quotes with subcommands for adding, listing, updating, and deleting quotes. Running 'quote' without subcommands displays a random quote.",
+		Long:  "Manage your collection of motivational quotes with subcommands for adding, listing, updating, and deleting quotes. Running 'quote' without subcommands displays a random quote.\n\n💡 Tip: For interactive quote browsing and management, try 'tada --tui'",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			db, cleanup, err := quote.GetDB(cmd)
 			if err != nil {

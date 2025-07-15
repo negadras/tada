@@ -21,7 +21,9 @@ Priority filtering:
   low, l     - Low priority tasks
   medium, m  - Medium priority tasks  
   high, h    - High priority tasks
-  all, a     - Show all priorities (default)`,
+  all, a     - Show all priorities (default)
+
+💡 Tip: For interactive browsing and management, try 'tada --tui'`,
 		Example: `  # List all open tasks (default)
   tada list
   

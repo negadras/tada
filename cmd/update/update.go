@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/negadras/tada/internal/todo"
+	"github.com/negadras/tada/internal/tui"
 	"github.com/spf13/cobra"
 )
 
@@ -14,7 +15,9 @@ func NewCommand() *cobra.Command {
 		Short: "Update a todo task",
 		Long: `Update various properties of a todo task including status, priority, and description.
 		
-At least one flag must be provided to specify what to update.`,
+At least one flag must be provided to specify what to update.
+
+💡 Tip: Use --tui flag to launch interactive edit mode`,
 		Example: `  # Mark todo #5 as done
   tada update 5 --status done
   
@@ -31,6 +34,11 @@ At least one flag must be provided to specify what to update.`,
   tada update 5 -s done -p high -d "Updated task"`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
+			// Check if TUI mode is requested
+			tuiMode, _ := cmd.Flags().GetBool("tui")
+			if tuiMode {
+				return tui.RunWithScreen("todos")
+			}
 			id, err := strconv.Atoi(args[0])
 			if err != nil {
 				todo.PrintError(cmd, err)
@@ -105,6 +113,7 @@ At least one flag must be provided to specify what to update.`,
 	cmd.Flags().StringP("status", "s", "", "Update status (open/o, done/d)")
 	cmd.Flags().StringP("priority", "p", "", "Update priority (low/l, medium/m, high/h)")
 	cmd.Flags().StringP("description", "d", "", "Update description")
+	cmd.Flags().BoolP("tui", "t", false, "Launch interactive TUI mode for editing")
 
 	return cmd
 }

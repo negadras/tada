@@ -139,9 +139,9 @@ Built with modern Go TUI frameworks:
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  Dashboard ←→ Todo Management ←→ Quote Collection               │
-│      ↓              ↓                    ↓                     │
-│   Statistics     Add/Edit/Delete     Browse/Filter             │
-│   Menu Items     Forms/Tables       Random Quotes              │
+│      ↓              ↓                    ↓                      │
+│   Statistics     Add/Edit/Delete     Browse/Filter              │
+│   Menu Items     Forms/Tables       Random Quotes               │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```

@@ -21,10 +21,14 @@ export default {
             ]
         ],
         'subject-case': [2, 'never', ['upper-case', 'start-case']],
-        'subject-empty': [2, 'never'],
+        // make subject-empty a warning instead of an error:
+        'subject-empty': [1, 'never'],
         'subject-full-stop': [2, 'never', '.'],
         'header-max-length': [2, 'always', 72],
-        'body-leading-blank': [2, 'always'],
-        'footer-leading-blank': [2, 'always']
+        // make body-leading-blank a warning instead of an error:
+        'body-leading-blank': [1, 'always'],
+        'footer-leading-blank': [2, 'always'],
+        // optionally add a rule to only warn if type is missing:
+        'type-empty': [1, 'never']
     }
 };

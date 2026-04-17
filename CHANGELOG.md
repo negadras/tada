@@ -1,3 +1,9 @@
+## [2.4.0](https://github.com/negadras/tada/compare/2.3.1...2.4.0) (2026-04-17)
+
+### ✨ Features
+
+* **list:** add --json flag and non-TTY fallback to list command ([4a27e9a](https://github.com/negadras/tada/commit/4a27e9a69cbeb8fb8c5b7e6bbadd8fca1107e7eb))
+
 ## [2.3.1](https://github.com/negadras/tada/compare/2.3.0...2.3.1) (2026-02-01)
 
 ### 🐛 Bug Fixes

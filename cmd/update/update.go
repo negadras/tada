@@ -48,8 +48,9 @@ At least one flag must be provided to specify what to update.
 			// Check if at least one flag is provided
 			if !cmd.Flags().Changed("status") &&
 				!cmd.Flags().Changed("priority") &&
-				!cmd.Flags().Changed("description") {
-				todo.PrintError(cmd, fmt.Errorf("at least one flag (--status, --priority, or --description) must be provided"))
+				!cmd.Flags().Changed("description") &&
+				!cmd.Flags().Changed("tag") {
+				todo.PrintError(cmd, fmt.Errorf("at least one flag (--status, --priority, --description, or --tag) must be provided"))
 				return nil
 			}
 
@@ -98,6 +99,14 @@ At least one flag must be provided to specify what to update.
 				}
 			}
 
+			if cmd.Flags().Changed("tag") {
+				tag, _ := cmd.Flags().GetString("tag")
+				if err := db.UpdateTag(id, tag); err != nil {
+					todo.PrintError(cmd, err)
+					return nil
+				}
+			}
+
 			updatedTodo, err := db.Get(id)
 			if err != nil {
 				todo.PrintError(cmd, err)
@@ -113,6 +122,7 @@ At least one flag must be provided to specify what to update.
 	cmd.Flags().StringP("status", "s", "", "Update status (open/o, done/d)")
 	cmd.Flags().StringP("priority", "p", "", "Update priority (low/l, medium/m, high/h)")
 	cmd.Flags().StringP("description", "d", "", "Update description")
+	cmd.Flags().StringP("tag", "g", "", "Update tag (e.g. personal, platform-engineering)")
 	cmd.Flags().BoolP("tui", "t", false, "Launch interactive TUI mode for editing")
 
 	return cmd

@@ -55,6 +55,10 @@ func PrintTodo(cmd *cobra.Command, todo *Todo) {
 		todo.Status.String(),
 		age)
 
+	if todo.Tag != "" {
+		cmd.Printf("   Tag: %s\n", todo.Tag)
+	}
+
 	if todo.Status == Done && todo.CompletedAt != nil {
 		completedAge := FormatAge(*todo.CompletedAge())
 		cmd.Printf("   Completed: %s ago\n", completedAge)
@@ -65,6 +69,9 @@ func PrintCreated(cmd *cobra.Command, todo *Todo) {
 	cmd.Printf("✅ Created todo #%d: %s\n", todo.ID, todo.Description)
 	cmd.Printf("   Priority: %s\n", todo.Priority.String())
 	cmd.Printf("   Status: %s\n", todo.Status.String())
+	if todo.Tag != "" {
+		cmd.Printf("   Tag: %s\n", todo.Tag)
+	}
 }
 
 func PrintError(cmd *cobra.Command, err error) {

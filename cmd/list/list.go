@@ -79,7 +79,13 @@ Priority filtering:
 				priorityFilter = &priority
 			}
 
-			tasks, err := db.List(statusFilter, priorityFilter)
+			tagFlag, _ := cmd.Flags().GetString("tag")
+			var tagFilter *string
+			if tagFlag != "" {
+				tagFilter = &tagFlag
+			}
+
+			tasks, err := db.List(statusFilter, priorityFilter, tagFilter)
 			if err != nil {
 				todo.PrintError(cmd, err)
 				return nil
@@ -104,6 +110,7 @@ Priority filtering:
 
 	cmd.Flags().StringP("status", "s", "open", "Status filter (open/o, done/d, all/a)")
 	cmd.Flags().StringP("priority", "p", "all", "Priority filter (low/l, medium/m, high/h, all/a)")
+	cmd.Flags().StringP("tag", "g", "", "Filter by tag (e.g. personal, platform-engineering)")
 	cmd.Flags().Bool("json", false, "Output todos as JSON (for scripting)")
 
 	return cmd

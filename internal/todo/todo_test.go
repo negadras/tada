@@ -153,7 +153,7 @@ func TestDB_Integration(t *testing.T) {
 		}
 
 		// List all todos
-		todos, err := db.List(nil, nil)
+		todos, err := db.List(nil, nil, nil)
 		if err != nil {
 			t.Fatalf("List() error = %v", err)
 		}
@@ -164,7 +164,7 @@ func TestDB_Integration(t *testing.T) {
 
 		// List by status
 		openStatus := Open
-		openTodos, err := db.List(&openStatus, nil)
+		openTodos, err := db.List(&openStatus, nil, nil)
 		if err != nil {
 			t.Fatalf("List() with status filter error = %v", err)
 		}
@@ -177,7 +177,7 @@ func TestDB_Integration(t *testing.T) {
 
 		// List by priority
 		highPriority := High
-		highTodos, err := db.List(nil, &highPriority)
+		highTodos, err := db.List(nil, &highPriority, nil)
 		if err != nil {
 			t.Fatalf("List() with priority filter error = %v", err)
 		}

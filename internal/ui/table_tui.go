@@ -32,8 +32,9 @@ func NewTableModel(todos []*todo.Todo) TableModel {
 		{Title: "ID", Width: 6},
 		{Title: "Priority", Width: 12},
 		{Title: "Status", Width: 8},
+		{Title: "Tag", Width: 20},
 		{Title: "Age", Width: 10},
-		{Title: "Description", Width: 80},
+		{Title: "Description", Width: 60},
 	}
 
 	rows := make([]table.Row, len(todos))
@@ -51,6 +52,7 @@ func NewTableModel(todos []*todo.Todo) TableModel {
 			id,
 			priority,
 			status,
+			t.Tag,
 			age,
 			description,
 		}

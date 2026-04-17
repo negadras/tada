@@ -23,7 +23,7 @@ func TestDashboard_loadTodoStats(t *testing.T) {
 
 	// Test statistics calculation logic directly
 	// Test with empty database
-	todos, err := db.List(nil, nil)
+	todos, err := db.List(nil, nil, nil)
 	if err != nil {
 		t.Fatalf("Failed to list todos: %v", err)
 	}
@@ -72,7 +72,7 @@ func TestDashboard_loadTodoStats(t *testing.T) {
 	}
 
 	// Test with populated database
-	todos, err = db.List(nil, nil)
+	todos, err = db.List(nil, nil, nil)
 	if err != nil {
 		t.Fatalf("Failed to list todos: %v", err)
 	}
@@ -265,7 +265,7 @@ func TestDashboard_TodayCompletedCalculation(t *testing.T) {
 	// Leave todo3 as open
 
 	// Test today's completion count calculation logic
-	todos, err := db.List(nil, nil)
+	todos, err := db.List(nil, nil, nil)
 	if err != nil {
 		t.Fatalf("Failed to list todos: %v", err)
 	}

@@ -300,7 +300,7 @@ func (d *Dashboard) loadTodoStats() (TodoStats, error) {
 	}
 
 	// Load all todos
-	todos, err := db.List(nil, nil)
+	todos, err := db.List(nil, nil, nil)
 	if err != nil {
 		return TodoStats{}, err
 	}

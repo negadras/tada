@@ -157,7 +157,7 @@ func TestTodoManager_StatusFiltering(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			todos, err := db.List(tt.statusFilter, nil)
+			todos, err := db.List(tt.statusFilter, nil, nil)
 			if err != nil {
 				t.Fatalf("Failed to list todos: %v", err)
 			}
@@ -240,7 +240,7 @@ func TestTodoManager_PriorityFiltering(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			todos, err := db.List(nil, tt.priorityFilter)
+			todos, err := db.List(nil, tt.priorityFilter, nil)
 			if err != nil {
 				t.Fatalf("Failed to list todos: %v", err)
 			}
@@ -298,7 +298,7 @@ func TestTodoManager_CombinedFiltering(t *testing.T) {
 	openStatus := todo.Open
 	highPriority := todo.High
 	
-	todos, err := db.List(&openStatus, &highPriority)
+	todos, err := db.List(&openStatus, &highPriority, nil)
 	if err != nil {
 		t.Fatalf("Failed to list todos: %v", err)
 	}

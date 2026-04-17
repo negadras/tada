@@ -50,8 +50,10 @@ Priority levels:
 				return nil
 			}
 
+			tagFlag, _ := cmd.Flags().GetString("tag")
+
 			// Create todo
-			newTodo, err := db.Create(description, priority)
+			newTodo, err := db.Create(description, priority, tagFlag)
 			if err != nil {
 				todo.PrintError(cmd, err)
 				return nil
@@ -63,5 +65,6 @@ Priority levels:
 	}
 
 	cmd.Flags().StringP("priority", "p", "medium", "Priority level (low/l, medium/m, high/h)")
+	cmd.Flags().StringP("tag", "g", "", "Tag to categorise the todo (e.g. personal, platform-engineering)")
 	return cmd
 }

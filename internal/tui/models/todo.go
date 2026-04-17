@@ -365,7 +365,7 @@ func (t *TodoManager) loadTodos() tea.Cmd {
 
 		t.db = db
 
-		todos, err := t.db.List(t.statusFilter, nil)
+		todos, err := t.db.List(t.statusFilter, nil, nil)
 		if err != nil {
 			return TodoErrorMsg{Error: fmt.Errorf("failed to load todos: %w", err)}
 		}
@@ -400,7 +400,7 @@ func (t *TodoManager) toggleTodoStatus() tea.Cmd {
 			return TodoErrorMsg{Error: err}
 		}
 
-		todos, err := t.db.List(t.statusFilter, nil)
+		todos, err := t.db.List(t.statusFilter, nil, nil)
 		if err != nil {
 			return TodoErrorMsg{Error: err}
 		}
@@ -423,7 +423,7 @@ func (t *TodoManager) cycleStatusFilter() tea.Cmd {
 		}
 
 		// Reload todos with new filter
-		todos, err := t.db.List(t.statusFilter, nil)
+		todos, err := t.db.List(t.statusFilter, nil, nil)
 		if err != nil {
 			return TodoErrorMsg{Error: err}
 		}
@@ -445,7 +445,7 @@ func (t *TodoManager) createTodo(description string, priority todo.Priority) tea
 			return TodoErrorMsg{Error: err}
 		}
 
-		todos, err := t.db.List(t.statusFilter, nil)
+		todos, err := t.db.List(t.statusFilter, nil, nil)
 		if err != nil {
 			return TodoErrorMsg{Error: err}
 		}
@@ -499,7 +499,7 @@ func (t *TodoManager) updateTodo(id int, description string, priority todo.Prior
 			return TodoErrorMsg{Error: err}
 		}
 
-		todos, err := t.db.List(t.statusFilter, nil)
+		todos, err := t.db.List(t.statusFilter, nil, nil)
 		if err != nil {
 			return TodoErrorMsg{Error: err}
 		}
@@ -539,7 +539,7 @@ func (t *TodoManager) confirmDeleteTodo(todoToDelete *todo.Todo) tea.Cmd {
 		}
 
 		// Reload todos
-		todos, err := t.db.List(t.statusFilter, nil)
+		todos, err := t.db.List(t.statusFilter, nil, nil)
 		if err != nil {
 			return TodoErrorMsg{Error: fmt.Errorf("failed to reload todos: %w", err)}
 		}

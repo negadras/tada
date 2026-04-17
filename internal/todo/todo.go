@@ -57,6 +57,7 @@ type Todo struct {
 	Description string     `json:"description"`
 	Priority    Priority   `json:"priority"`
 	Status      Status     `json:"status"`
+	Tag         string     `json:"tag,omitempty"`
 	CreatedAt   time.Time  `json:"created_at"`
 	UpdatedAt   time.Time  `json:"updated_at"`
 	CompletedAt *time.Time `json:"completed_at,omitempty"`
@@ -119,6 +120,7 @@ func createTables(db *sql.DB) error {
 		description TEXT NOT NULL,
 		priority INTEGER NOT NULL DEFAULT 2 CHECK(priority IN (1, 2, 3)),
 		status INTEGER NOT NULL DEFAULT 1 CHECK(status IN (1, 2)),
+		tag TEXT NOT NULL DEFAULT '',
 		created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 		completed_at DATETIME NULL
@@ -145,16 +147,29 @@ func createTables(db *sql.DB) error {
 	CREATE INDEX IF NOT EXISTS idx_quotes_created_at ON quotes(created_at);
 	`
 
-	_, err := db.Exec(schema)
-	return err
+	if _, err := db.Exec(schema); err != nil {
+		return err
+	}
+
+	// Migrate: add tag column to existing databases (idempotent — error ignored if already exists)
+	_, _ = db.Exec(`ALTER TABLE todos ADD COLUMN tag TEXT NOT NULL DEFAULT ''`)
+
+	// Index on tag — created after migration so the column is guaranteed to exist
+	_, tagIdxErr := db.Exec(`CREATE INDEX IF NOT EXISTS idx_todos_tag ON todos(tag)`)
+	return tagIdxErr
 }
 
-// Create creates a new todo task
-func (db *DB) Create(description string, priority Priority) (*Todo, error) {
+// Create creates a new todo task. An optional tag can be provided as the third argument.
+func (db *DB) Create(description string, priority Priority, tag ...string) (*Todo, error) {
+	t := ""
+	if len(tag) > 0 {
+		t = tag[0]
+	}
+
 	result, err := db.conn.Exec(`
-		INSERT INTO todos (description, priority)
-		VALUES (?, ?)
-	`, description, int(priority))
+		INSERT INTO todos (description, priority, tag)
+		VALUES (?, ?, ?)
+	`, description, int(priority), t)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to create todo: %w", err)
@@ -171,7 +186,7 @@ func (db *DB) Create(description string, priority Priority) (*Todo, error) {
 // Get retrieves a todo by ID
 func (db *DB) Get(id int) (*Todo, error) {
 	row := db.conn.QueryRow(`
-		SELECT id, description, priority, status, created_at, updated_at, completed_at
+		SELECT id, description, priority, status, tag, created_at, updated_at, completed_at
 		FROM todos WHERE id = ?
 	`, id)
 
@@ -179,7 +194,7 @@ func (db *DB) Get(id int) (*Todo, error) {
 	var completedAt sql.NullTime
 
 	err := row.Scan(
-		&todo.ID, &todo.Description, &todo.Priority, &todo.Status,
+		&todo.ID, &todo.Description, &todo.Priority, &todo.Status, &todo.Tag,
 		&todo.CreatedAt, &todo.UpdatedAt, &completedAt,
 	)
 
@@ -195,9 +210,9 @@ func (db *DB) Get(id int) (*Todo, error) {
 }
 
 // List retrieves todos with optional filtering
-func (db *DB) List(status *Status, priority *Priority) ([]*Todo, error) {
+func (db *DB) List(status *Status, priority *Priority, tag *string) ([]*Todo, error) {
 	query := `
-		SELECT id, description, priority, status, created_at, updated_at, completed_at
+		SELECT id, description, priority, status, tag, created_at, updated_at, completed_at
 		FROM todos WHERE 1=1
 	`
 	args := []interface{}{}
@@ -210,6 +225,11 @@ func (db *DB) List(status *Status, priority *Priority) ([]*Todo, error) {
 	if priority != nil {
 		query += " AND priority = ?"
 		args = append(args, int(*priority))
+	}
+
+	if tag != nil {
+		query += " AND tag = ?"
+		args = append(args, *tag)
 	}
 
 	query += " ORDER BY created_at DESC"
@@ -226,7 +246,7 @@ func (db *DB) List(status *Status, priority *Priority) ([]*Todo, error) {
 		var completedAt sql.NullTime
 
 		err := rows.Scan(
-			&todo.ID, &todo.Description, &todo.Priority, &todo.Status,
+			&todo.ID, &todo.Description, &todo.Priority, &todo.Status, &todo.Tag,
 			&todo.CreatedAt, &todo.UpdatedAt, &completedAt,
 		)
 
@@ -280,6 +300,17 @@ func (db *DB) UpdateDescription(id int, description string) error {
 		SET description = ?, updated_at = CURRENT_TIMESTAMP
 		WHERE id = ?
 	`, description, id)
+
+	return err
+}
+
+// UpdateTag updates the tag of a todo
+func (db *DB) UpdateTag(id int, tag string) error {
+	_, err := db.conn.Exec(`
+		UPDATE todos
+		SET tag = ?, updated_at = CURRENT_TIMESTAMP
+		WHERE id = ?
+	`, tag, id)
 
 	return err
 }

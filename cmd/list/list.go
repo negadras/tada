@@ -1,10 +1,21 @@
 package list
 
 import (
+	"encoding/json"
+	"os"
+
 	"github.com/negadras/tada/internal/todo"
 	"github.com/negadras/tada/internal/ui"
 	"github.com/spf13/cobra"
 )
+
+func isatty() bool {
+	fi, err := os.Stdout.Stat()
+	if err != nil {
+		return false
+	}
+	return (fi.Mode() & os.ModeCharDevice) != 0
+}
 
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
@@ -74,12 +85,26 @@ Priority filtering:
 				return nil
 			}
 
+			jsonFlag, _ := cmd.Flags().GetBool("json")
+
+			if jsonFlag {
+				return json.NewEncoder(os.Stdout).Encode(tasks)
+			}
+
+			if !isatty() {
+				for _, t := range tasks {
+					todo.PrintTodo(cmd, t)
+				}
+				return nil
+			}
+
 			return ui.ShowTable(tasks)
 		},
 	}
 
 	cmd.Flags().StringP("status", "s", "open", "Status filter (open/o, done/d, all/a)")
 	cmd.Flags().StringP("priority", "p", "all", "Priority filter (low/l, medium/m, high/h, all/a)")
+	cmd.Flags().Bool("json", false, "Output todos as JSON (for scripting)")
 
 	return cmd
 }
